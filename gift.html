@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thiệp Chúc Mừng — Chúc mừng Ngày Phụ nữ Việt Nam</title>
+  <meta name="description" content="Thiệp chúc mừng điện tử - giao diện đẹp, responsive và chuyên nghiệp." />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1: #fbe8f5;
+      --bg2: #fff7f0;
+      --accent: #e95c9a;
+      --accent-2: #ff8fb1;
+      --muted: #6b6b6b;
+      --glass: rgba(255,255,255,0.6);
+      --card-w: 900px;
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: 'Quicksand', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(160deg,var(--bg1),var(--bg2));
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--card-w);
+      display:flex;
+      gap:28px;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* Card visual */
+    .card{
+      position:relative;
+      flex:1 1 640px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      border-radius:var(--radius);
+      padding:32px;
+      box-shadow: 0 12px 40px rgba(15,12,31,0.12);
+      display:flex;
+      gap:24px;
+      align-items:center;
+      overflow:hidden;
+      min-height:380px;
+    }
+
+    /* Left artwork */
+    .art{
+      width:44%;
+      min-width:260px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+
+    .rose{
+      width:220px;
+      height:220px;
+      transform-origin:center;
+      animation: float 6s ease-in-out infinite;
+      filter: drop-shadow(0 10px 20px rgba(233,92,154,0.18));
+    }
+
+    @keyframes float{
+      0%{transform:translateY(0) rotate(-2deg)}
+      50%{transform:translateY(-10px) rotate(2deg)}
+      100%{transform:translateY(0) rotate(-2deg)}
+    }
+
+    /* Right content */
+    .content{
+      flex:1 1 50%;
+      padding:8px 6px;
+    }
+
+    h1{
+      font-family: 'Playfair Display', serif;
+      margin:0 0 8px 0;
+      font-size:30px;
+      color: #2c1430;
+      letter-spacing:0.4px;
+    }
+
+    .subtitle{
+      margin:0 0 18px 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .message{
+      background: linear-gradient(90deg, rgba(249,237,246,0.9), rgba(255,248,249,0.8));
+      border-radius:12px;
+      padding:18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+      color:#4a2a3f;
+      line-height:1.5;
+      font-size:16px;
+      margin-bottom:18px;
+    }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:0;
+      padding:10px 16px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:14px;
+      transition:transform .12s ease, box-shadow .12s ease;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;
+      box-shadow: 0 6px 18px rgba(233,92,154,0.18);
+    }
+    .btn:active{transform:translateY(1px)}
+
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid rgba(233,92,154,0.16);
+      box-shadow:none;
+    }
+
+    .meta{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    /* Small card on the right for signature */
+    .panel{
+      width:220px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+      border-radius:14px;
+      padding:18px;
+      box-shadow: 0 8px 30px rgba(14,13,22,0.06);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:flex-start;
+    }
+
+    .from{
+      font-weight:700;
+      font-size:15px;
+      color:#2d1630;
+    }
+
+    .small-note{font-size:13px;color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width:880px){
+      .wrap{flex-direction:column;align-items:stretch}
+      .art{width:100%;order:0}
+      .panel{width:100%;order:2}
+      .card{flex-direction:column;align-items:center;padding:20px}
+      .art{margin-bottom:6px}
+    }
+
+    /* subtle confetti animation (light) */
+    .confetti{position:absolute;inset:0;pointer-events:none}
+    .confetti span{position:absolute;width:8px;height:8px;border-radius:2px;background:var(--accent);opacity:0.9;animation: conf 3s linear infinite}
+    @keyframes conf{0%{transform:translateY(-40vh) rotate(0) translateX(0);opacity:1}100%{transform:translateY(80vh) rotate(360deg) translateX(40px);opacity:0}}
+
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <section class="card" aria-labelledby="title">
+      <div class="art" aria-hidden="true">
+        <!-- Decorative rose SVG -->
+        <svg class="rose" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#ff9ab8"/>
+              <stop offset="100%" stop-color="#e94f8a"/>
+            </linearGradient>
+          </defs>
+          <circle cx="256" cy="256" r="240" fill="url(#g1)" opacity="0.06"/>
+          <g transform="translate(80,40) scale(1.05)">
+            <!-- stylized rose petals -->
+            <path d="M160 20C140 40 120 70 130 110c10 40 70 60 120 60s110-20 120-60c10-40-10-70-30-90-20-20-80-10-140-20z" fill="#fff" opacity="0.06"/>
+            <path d="M180 70c-18 14-30 36-24 66 12 56 92 88 144 48 52-40 42-108 12-134-34-30-88-26-132 20z" fill="#ffcfe0"/>
+            <path d="M220 90c-14 12-18 34-8 54 16 30 68 46 102 26 46-28 36-86 14-110-26-28-74-24-108 30z" fill="#ff8fb1"/>
+            <path d="M240 120c-8 8-8 22 0 36 12 20 44 28 66 16 28-14 24-46 8-62-18-18-46-18-74 10z" fill="#e94f8a"/>
+            <rect x="180" y="200" width="12" height="120" rx="6" fill="#2a6b3b"/>
+            <path d="M200 320c0 12-20 24-20 40v60h40v-60c0-16-20-28-20-40z" fill="#2a6b3b"/>
+          </g>
+        </svg>
+
+        <!-- subtle confetti elements -->
+        <div class="confetti" aria-hidden="true">
+          <span style="left:10%;animation-delay:0s"></span>
+          <span style="left:25%;animation-delay:0.3s;transform-origin:center"></span>
+          <span style="left:40%;animation-delay:.6s"></span>
+          <span style="left:60%;animation-delay:.9s"></span>
+          <span style="left:80%;animation-delay:1.2s"></span>
+        </div>
+      </div>
+
+      <div class="content">
+        <h1 id="title">Chúc mừng Ngày Phụ nữ Việt Nam</h1>
+        <p class="subtitle">Gửi tới CHLOE — mong em luôn xinh đẹp, an yên và trọn vẹn niềm vui.</p>
+
+        <article class="message" aria-label="Lời chúc">
+          Chúc CHLOE ngày càng xinh đẹp, sức khoẻ dồi dào và luôn tìm thấy niềm vui trong từng khoảnh khắc nhỏ. <br><br>
+          Gửi kèm một bông hồng ảo và rất nhiều yêu thương. 💐
+        </article>
+
+        <div class="actions">
+          <button class="btn" id="btnPlay">Mở nhạc nhẹ</button>
+          <button class="btn secondary" id="btnShare">Sao chép liên kết</button>
+          <button class="btn secondary" id="btnPrint">In thiệp</button>
+          <div class="meta" style="margin-left:auto">Ngày: <strong id="date">11/08/2025</strong></div>
+        </div>
+
+      </div>
+
+      <aside class="panel" aria-label="Người gửi">
+        <div class="from">Từ: <span style="font-weight:600">Người bạn thân</span></div>
+        <div class="small-note">Gửi kèm: Một lời chúc ấm áp — mở nhạc để tăng cảm xúc.</div>
+        <div style="width:100%">
+          <button class="btn" id="btnEditName" style="width:100%">Chỉnh tên người nhận</button>
+        </div>
+      </aside>
+
+    </section>
+  </main>
+
+  <!-- Optional: simple audio track encoded as dataURI (short melody) to avoid external calls -->
+  <audio id="bgAudio" loop preload="none">
+    <source src="data:audio/mpeg;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA..." type="audio/mpeg">
+    <!-- Note: dataURI truncated for brevity; you can replace with an actual mp3 link or leave empty -->
+  </audio>
+
+  <script>
+    // small interactive behaviors
+    const btnShare = document.getElementById('btnShare');
+    const btnPrint = document.getElementById('btnPrint');
+    const btnPlay = document.getElementById('btnPlay');
+    const btnEditName = document.getElementById('btnEditName');
+    const title = document.getElementById('title');
+    const dateEl = document.getElementById('date');
+    const audio = document.getElementById('bgAudio');
+
+    // Set today's date in VN format
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2,'0');
+    const mm = String(today.getMonth()+1).padStart(2,'0');
+    const yyyy = today.getFullYear();
+    dateEl.textContent = `${dd}/${mm}/${yyyy}`;
+
+    // Share (copy link)
+    btnShare.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(location.href);
+        btnShare.textContent = 'Đã sao chép!';
+        setTimeout(()=> btnShare.textContent = 'Sao chép liên kết',1500);
+      }catch(e){
+        alert('Trình duyệt không hỗ trợ sao chép tự động. Vui lòng chọn và sao chép URL thủ công.');
+      }
+    });
+
+    // Print
+    btnPrint.addEventListener('click', ()=>{
+      window.print();
+    });
+
+    // Play / pause audio
+    btnPlay.addEventListener('click', ()=>{
+      if(!audio.src || audio.src.length<10){
+        // if no audio embedded, toggle a simple beep using WebAudio
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = 440; g.gain.value = 0.001;
+        o.connect(g); g.connect(ctx.destination);
+        o.start();
+        setTimeout(()=>{ o.stop(); ctx.close(); }, 800);
+        return;
+      }
+      if(audio.paused){
+        audio.play(); btnPlay.textContent = 'Tắt nhạc';
+      }else{ audio.pause(); btnPlay.textContent = 'Mở nhạc nhẹ'; }
+    });
+
+    // Edit recipient name (small friendly prompt)
+    btnEditName.addEventListener('click', ()=>{
+      const name = prompt('Nhập tên người nhận:', 'CHLOE');
+      if(name!==null && name.trim().length>0){
+        // update heading and message
+        title.textContent = `Chúc mừng Ngày Phụ nữ Việt Nam`;
+        document.querySelector('.subtitle').textContent = `Gửi tới ${name} — mong em luôn xinh đẹp, an yên và trọn vẹn niềm vui.`;
+      }
+    });
+
+    // Accessibility: allow Enter to trigger primary action when focused
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' && document.activeElement === btnPlay){ btnPlay.click(); }
+    });
+
+    // Progressive enhancement: if prefers-reduced-motion, reduce animations
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if(media.matches){
+      document.querySelectorAll('.rose, .confetti span').forEach(el=> el.style.animation = 'none');
+    }
+
+  </script>
+</body>
+</html>
