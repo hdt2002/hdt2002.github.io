@@ -1,329 +1,672 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Thiệp Chúc Mừng — Chúc mừng Ngày Phụ nữ Việt Nam</title>
-  <meta name="description" content="Thiệp chúc mừng điện tử - giao diện đẹp, responsive và chuyên nghiệp." />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Thiệp - Hoa nở</title>
+<meta name="description" content="Thiệp điện tử: intro hoa nở + thiệp pastel + cánh hoa rơi + nhạc nền" />
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep: #2a1430;
+    --accent1: #ff78b3;
+    --accent2: #ffd1e6;
+    --soft: #fff6f9;
+    --muted: #6e485a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+    background: linear-gradient(180deg, #fffaf8 0%, #fff6fb 100%);
+    -webkit-font-smoothing:antialiased;
+    color:#3b2433;
+  }
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  /* full-screen layout */
+  .stage{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
 
-  <style>
-    :root{
-      --bg1: #fbe8f5;
-      --bg2: #fff7f0;
-      --accent: #e95c9a;
-      --accent-2: #ff8fb1;
-      --muted: #6b6b6b;
-      --glass: rgba(255,255,255,0.6);
-      --card-w: 900px;
-      --radius: 18px;
-    }
+  /* INTRO overlay */
+  .intro{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: radial-gradient(800px 400px at 50% 40%, rgba(255,160,200,0.12), transparent 20%),
+                linear-gradient(180deg, rgba(30,12,32,0.9), rgba(36,14,38,0.86));
+    z-index:30;
+    transition: opacity .9s ease, transform .9s ease;
+    flex-direction:column;
+    gap:18px;
+    padding:24px;
+  }
+  .intro.hidden{ opacity:0; pointer-events:none; transform:scale(.98); }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: 'Quicksand', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: linear-gradient(160deg,var(--bg1),var(--bg2));
-      -webkit-font-smoothing:antialiased;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px;
-    }
+  .flower-wrap{
+    width:320px;
+    height:320px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform-origin:center;
+    position:relative;
+  }
 
-    .wrap{
-      width:100%;
-      max-width:var(--card-w);
-      display:flex;
-      gap:28px;
-      align-items:center;
-      justify-content:center;
-    }
+  /* SVG flower will scale from 0->1 = nở */
+  .flower{
+    width:100%;
+    height:100%;
+    transform:scale(0);
+    opacity:0;
+    transition: transform 1.2s cubic-bezier(.2,.8,.2,1), opacity .9s ease;
+    will-change: transform, opacity;
+  }
+  .flower.bloom{ transform:scale(1); opacity:1; }
 
-    /* Card visual */
-    .card{
-      position:relative;
-      flex:1 1 640px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
-      border-radius:var(--radius);
-      padding:32px;
-      box-shadow: 0 12px 40px rgba(15,12,31,0.12);
-      display:flex;
-      gap:24px;
-      align-items:center;
-      overflow:hidden;
-      min-height:380px;
-    }
+  .intro h2{
+    font-family: 'Great Vibes', serif;
+    color:var(--accent2);
+    font-size:44px;
+    margin:0;
+    letter-spacing:0.6px;
+  }
+  .intro p{ margin:0;color:rgba(255,255,255,0.85); font-size:15px; }
 
-    /* Left artwork */
-    .art{
-      width:44%;
-      min-width:260px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-    }
+  /* cute button */
+  .btn-open{
+    margin-top:8px;
+    background: linear-gradient(90deg,var(--accent1),#ff9ccf);
+    color:white;
+    border:0;
+    padding:12px 18px;
+    border-radius:18px;
+    font-weight:600;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow: 0 10px 30px rgba(255,120,179,0.16);
+    transform-origin:center;
+    opacity:0;
+    transform:translateY(8px) scale(0.98);
+    transition: opacity .45s ease .2s, transform .45s cubic-bezier(.2,.9,.2,1) .2s;
+  }
+  .btn-open.show{ opacity:1; transform:translateY(0) scale(1); animation: wiggle 3s ease-in-out infinite; }
+  @keyframes wiggle{
+    0%{ transform:translateY(0) rotate(-1deg) }
+    50%{ transform:translateY(2px) rotate(1deg) }
+    100%{ transform:translateY(0) rotate(-1deg) }
+  }
+  .btn-open:active{ transform:scale(.98) translateY(1px); animation-play-state:paused; }
 
-    .rose{
-      width:220px;
-      height:220px;
-      transform-origin:center;
-      animation: float 6s ease-in-out infinite;
-      filter: drop-shadow(0 10px 20px rgba(233,92,154,0.18));
-    }
+  /* CARD (thiệp) */
+  .card{
+    width:min(980px,94%);
+    max-width:980px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,249,251,0.95));
+    border-radius:20px;
+    box-shadow: 0 20px 60px rgba(30,12,40,0.08);
+    padding:22px;
+    display:grid;
+    grid-template-columns: 1fr 320px;
+    gap:20px;
+    align-items:start;
+    opacity:0;
+    transform:translateY(8px) scale(.995);
+    transition: opacity .9s ease .15s, transform .9s ease .15s;
+    z-index:10;
+  }
+  .card.show{ opacity:1; transform:translateY(0) scale(1); }
 
-    @keyframes float{
-      0%{transform:translateY(0) rotate(-2deg)}
-      50%{transform:translateY(-10px) rotate(2deg)}
-      100%{transform:translateY(0) rotate(-2deg)}
-    }
+  .left{
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .photo{
+    border-radius:14px;
+    overflow:hidden;
+    height:260px;
+    background:linear-gradient(180deg,#fff2f7,#fff9fb);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 12px 36px rgba(230,110,150,0.05);
+  }
+  .photo svg{ width:100%; height:100%; object-fit:cover; }
 
-    /* Right content */
-    .content{
-      flex:1 1 50%;
-      padding:8px 6px;
-    }
+  h1{
+    margin:8px 0 0 0;
+    font-family: 'Great Vibes', serif;
+    font-size:44px;
+    color:#5b1f3a;
+  }
+  .subtitle{ color:var(--muted); margin:0 0 6px 0; }
 
-    h1{
-      font-family: 'Playfair Display', serif;
-      margin:0 0 8px 0;
-      font-size:30px;
-      color: #2c1430;
-      letter-spacing:0.4px;
-    }
+  .message{
+    background:linear-gradient(180deg,#fff8fa,#fff2f6);
+    border-radius:12px;
+    padding:14px;
+    font-size:16px;
+    color:#3e2230;
+    line-height:1.6;
+    min-height:140px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  .controls{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-top:10px;
+  }
+  .btn{
+    border:0;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;
+    background:linear-gradient(90deg,var(--accent1),#ff9ccf);color:white;
+    box-shadow: 0 8px 24px rgba(255,120,179,0.12);
+  }
+  .btn.alt{ background:transparent;color:var(--accent1); border:1px solid rgba(255,140,170,0.12); box-shadow:none; }
 
-    .subtitle{
-      margin:0 0 18px 0;
-      color:var(--muted);
-      font-size:14px;
-    }
+  /* RIGHT PANEL */
+  .panel{
+    padding:14px;
+    border-radius:14px;
+    background:linear-gradient(180deg, rgba(255,250,250,0.95), rgba(255,245,249,0.9));
+    box-shadow: 0 8px 30px rgba(30,12,40,0.04);
+  }
+  .panel .from{ font-weight:700; color:#5b1f3a; }
+  .panel input{ width:100%; padding:10px;border-radius:10px;border:1px solid rgba(120,80,100,0.06); margin-top:8px; font-size:14px; }
 
-    .message{
-      background: linear-gradient(90deg, rgba(249,237,246,0.9), rgba(255,248,249,0.8));
-      border-radius:12px;
-      padding:18px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
-      color:#4a2a3f;
-      line-height:1.5;
-      font-size:16px;
-      margin-bottom:18px;
-    }
+  /* petals overlay */
+  .petals{
+    position:absolute; inset:0; pointer-events:none; z-index:12; overflow:hidden;
+  }
 
-    .actions{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
+  /* responsive */
+  @media (max-width:900px){
+    .card{ grid-template-columns:1fr; padding:16px; }
+    .panel{ order:2; margin-top:8px;}
+    .photo{ height:200px; }
+  }
 
-    .btn{
-      border:0;
-      padding:10px 16px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:600;
-      font-size:14px;
-      transition:transform .12s ease, box-shadow .12s ease;
-      background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      color:white;
-      box-shadow: 0 6px 18px rgba(233,92,154,0.18);
-    }
-    .btn:active{transform:translateY(1px)}
-
-    .btn.secondary{
-      background:transparent;
-      color:var(--accent);
-      border:1px solid rgba(233,92,154,0.16);
-      box-shadow:none;
-    }
-
-    .meta{
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    /* Small card on the right for signature */
-    .panel{
-      width:220px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
-      border-radius:14px;
-      padding:18px;
-      box-shadow: 0 8px 30px rgba(14,13,22,0.06);
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      align-items:flex-start;
-    }
-
-    .from{
-      font-weight:700;
-      font-size:15px;
-      color:#2d1630;
-    }
-
-    .small-note{font-size:13px;color:var(--muted)}
-
-    /* Responsive */
-    @media (max-width:880px){
-      .wrap{flex-direction:column;align-items:stretch}
-      .art{width:100%;order:0}
-      .panel{width:100%;order:2}
-      .card{flex-direction:column;align-items:center;padding:20px}
-      .art{margin-bottom:6px}
-    }
-
-    /* subtle confetti animation (light) */
-    .confetti{position:absolute;inset:0;pointer-events:none}
-    .confetti span{position:absolute;width:8px;height:8px;border-radius:2px;background:var(--accent);opacity:0.9;animation: conf 3s linear infinite}
-    @keyframes conf{0%{transform:translateY(-40vh) rotate(0) translateX(0);opacity:1}100%{transform:translateY(80vh) rotate(360deg) translateX(40px);opacity:0}}
-
-  </style>
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .flower, .btn-open, .card, .petals * { transition:none !important; animation:none !important; transform:none !important; }
+  }
+</style>
 </head>
 <body>
-  <main class="wrap" role="main">
-    <section class="card" aria-labelledby="title">
-      <div class="art" aria-hidden="true">
-        <!-- Decorative rose SVG -->
-        <svg class="rose" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+<div class="stage" role="main" aria-live="polite">
+
+  <!-- INTRO: flower nở -->
+  <div class="intro" id="intro">
+    <div class="flower-wrap" aria-hidden="true">
+      <!-- stylized vector flower (vẽ đơn giản, màu pastel) -->
+      <svg class="flower" id="flowerSVG" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+        <defs>
+          <radialGradient id="gpetal" cx="30%" cy="30%">
+            <stop offset="0%" stop-color="#fff1f6"/>
+            <stop offset="55%" stop-color="#ffd6e8"/>
+            <stop offset="100%" stop-color="#ff8fb1"/>
+          </radialGradient>
+          <radialGradient id="gcenter" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#fff4e8"/>
+            <stop offset="60%" stop-color="#ffd7c9"/>
+            <stop offset="100%" stop-color="#ffb48a"/>
+          </radialGradient>
+        </defs>
+
+        <!-- petals: create multiple petals rotated -->
+        <g transform="translate(180,180)">
+          <g id="petals">
+            <!-- will animate scale via CSS class "bloom" on parent -->
+            <path d="M0,-24 C30,-30 70,-40 86,-14 C104,16 80,60 44,82 C10,100 -30,102 -60,84 C-92,64 -96,24 -80,-6 C-68,-30 -35,-18 0,-24 Z" fill="url(#gpetal)" opacity="0.98"/>
+            <path d="M0,-24 C30,-30 70,-40 86,-14 C104,16 90,58 62,78 C30,102 -14,100 -52,78 C-80,60 -92,26 -82,-6 C-70,-34 -35,-18 0,-24 Z" fill="url(#gpetal)" transform="rotate(45)"/>
+            <path d="M0,-24 C30,-30 70,-40 86,-14 C104,16 90,58 62,78 C30,102 -14,100 -52,78 C-80,60 -92,26 -82,-6 C-70,-34 -35,-18 0,-24 Z" fill="url(#gpetal)" transform="rotate(90)"/>
+            <path d="M0,-24 C30,-30 70,-40 86,-14 C104,16 90,58 62,78 C30,102 -14,100 -52,78 C-80,60 -92,26 -82,-6 C-70,-34 -35,-18 0,-24 Z" fill="url(#gpetal)" transform="rotate(135)"/>
+            <path d="M0,-24 C30,-30 70,-40 86,-14 C104,16 80,60 44,82 C10,100 -30,102 -60,84 C-92,64 -96,24 -80,-6 C-68,-30 -35,-18 0,-24 Z" fill="url(#gpetal)" transform="rotate(180)"/>
+            <path d="M0,-24 C30,-30 70,-40 86,-14 C104,16 90,58 62,78 C30,102 -14,100 -52,78 C-80,60 -92,26 -82,-6 C-70,-34 -35,-18 0,-24 Z" fill="url(#gpetal)" transform="rotate(225)"/>
+            <path d="M0,-24 C30,-30 70,-40 86,-14 C104,16 90,58 62,78 C30,102 -14,100 -52,78 C-80,60 -92,26 -82,-6 C-70,-34 -35,-18 0,-24 Z" fill="url(#gpetal)" transform="rotate(270)"/>
+            <path d="M0,-24 C30,-30 70,-40 86,-14 C104,16 80,60 44,82 C10,100 -30,102 -60,84 C-92,64 -96,24 -80,-6 C-68,-30 -35,-18 0,-24 Z" fill="url(#gpetal)" transform="rotate(315)"/>
+          </g>
+
+          <!-- center -->
+          <circle cx="0" cy="0" r="26" fill="url(#gcenter)" stroke="#ffd6d0" stroke-width="2" />
+        </g>
+      </svg>
+    </div>
+
+    <h2>Cho em một đóa hoa</h2>
+    <p>Ấn nút để nhận điều bất ngờ nhé — hoa sẽ nở và rồi thiệp sẽ hiện ra.</p>
+    <button class="btn-open" id="openBtn" aria-label="Mở thiệp">Mở thiệp</button>
+  </div>
+
+  <!-- MAIN card (hidden initially) -->
+  <section class="card" id="card" role="region" aria-label="Thiệp chúc mừng">
+    <div class="left">
+      <div class="photo" aria-hidden="true">
+        <!-- Decorative vector / can be replaced by clicking later -->
+        <svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
           <defs>
-            <linearGradient id="g1" x1="0" x2="1">
-              <stop offset="0%" stop-color="#ff9ab8"/>
-              <stop offset="100%" stop-color="#e94f8a"/>
+            <linearGradient id="bggrad" x1="0" x2="1">
+              <stop offset="0" stop-color="#fff1f6"/>
+              <stop offset="1" stop-color="#fffaf6"/>
             </linearGradient>
           </defs>
-          <circle cx="256" cy="256" r="240" fill="url(#g1)" opacity="0.06"/>
-          <g transform="translate(80,40) scale(1.05)">
-            <!-- stylized rose petals -->
-            <path d="M160 20C140 40 120 70 130 110c10 40 70 60 120 60s110-20 120-60c10-40-10-70-30-90-20-20-80-10-140-20z" fill="#fff" opacity="0.06"/>
-            <path d="M180 70c-18 14-30 36-24 66 12 56 92 88 144 48 52-40 42-108 12-134-34-30-88-26-132 20z" fill="#ffcfe0"/>
-            <path d="M220 90c-14 12-18 34-8 54 16 30 68 46 102 26 46-28 36-86 14-110-26-28-74-24-108 30z" fill="#ff8fb1"/>
-            <path d="M240 120c-8 8-8 22 0 36 12 20 44 28 66 16 28-14 24-46 8-62-18-18-46-18-74 10z" fill="#e94f8a"/>
-            <rect x="180" y="200" width="12" height="120" rx="6" fill="#2a6b3b"/>
-            <path d="M200 320c0 12-20 24-20 40v60h40v-60c0-16-20-28-20-40z" fill="#2a6b3b"/>
+          <rect width="1200" height="600" fill="url(#bggrad)"/>
+          <g transform="translate(80,40) scale(0.9)">
+            <path d="M120 40c-60 36-84 86-64 132 22 52 96 82 164 64 76-20 132-76 110-130-26-64-110-110-210-66z" fill="#ffd9e8" opacity="0.95"/>
+            <path d="M260 160c-36 26-46 70-18 102 34 42 94 62 148 40 56-24 48-74 18-106-32-36-90-36-148-36z" fill="#ff9ab8"/>
           </g>
         </svg>
-
-        <!-- subtle confetti elements -->
-        <div class="confetti" aria-hidden="true">
-          <span style="left:10%;animation-delay:0s"></span>
-          <span style="left:25%;animation-delay:0.3s;transform-origin:center"></span>
-          <span style="left:40%;animation-delay:.6s"></span>
-          <span style="left:60%;animation-delay:.9s"></span>
-          <span style="left:80%;animation-delay:1.2s"></span>
-        </div>
       </div>
 
-      <div class="content">
-        <h1 id="title">Chúc mừng Ngày Phụ nữ Việt Nam</h1>
-        <p class="subtitle">Gửi tới CHLOE — mong em luôn xinh đẹp, an yên và trọn vẹn niềm vui.</p>
-
-        <article class="message" aria-label="Lời chúc">
-          Chúc CHLOE ngày càng xinh đẹp, sức khoẻ dồi dào và luôn tìm thấy niềm vui trong từng khoảnh khắc nhỏ. <br><br>
-          Gửi kèm một bông hồng ảo và rất nhiều yêu thương. 💐
-        </article>
-
-        <div class="actions">
-          <button class="btn" id="btnPlay">Mở nhạc nhẹ</button>
-          <button class="btn secondary" id="btnShare">Sao chép liên kết</button>
-          <button class="btn secondary" id="btnPrint">In thiệp</button>
-          <div class="meta" style="margin-left:auto">Ngày: <strong id="date">11/08/2025</strong></div>
-        </div>
-
+      <div>
+        <h1 id="title">Chúc em luôn xinh — CHLOE</h1>
+        <p class="subtitle" id="subtitle">Mong em mỗi ngày đều dịu dàng, rạng rỡ như đóa hoa.</p>
       </div>
 
-      <aside class="panel" aria-label="Người gửi">
-        <div class="from">Từ: <span style="font-weight:600">Người bạn thân</span></div>
-        <div class="small-note">Gửi kèm: Một lời chúc ấm áp — mở nhạc để tăng cảm xúc.</div>
-        <div style="width:100%">
-          <button class="btn" id="btnEditName" style="width:100%">Chỉnh tên người nhận</button>
-        </div>
-      </aside>
+      <div class="message" id="message" role="article" aria-label="Lời chúc">
+        <!-- typed content inserted here -->
+      </div>
 
-    </section>
-  </main>
+      <div class="controls">
+        <button class="btn" id="musicBtn" aria-pressed="false">Bật nhạc ♫</button>
+        <button class="btn alt" id="copyBtn">Sao chép link</button>
+        <button class="btn alt" id="printBtn">In thiệp</button>
+      </div>
+    </div>
 
-  <!-- Optional: simple audio track encoded as dataURI (short melody) to avoid external calls -->
-  <audio id="bgAudio" loop preload="none">
-    <source src="data:audio/mpeg;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA..." type="audio/mpeg">
-    <!-- Note: dataURI truncated for brevity; you can replace with an actual mp3 link or leave empty -->
-  </audio>
+    <aside class="panel" aria-label="Thông tin người gửi">
+      <div>
+        <div class="from">Từ: <span id="fromName">Người bạn thân</span></div>
+        <div style="margin-top:8px;color:var(--muted)">Nhập tên người nhận / người gửi và bấm Áp dụng</div>
+      </div>
 
-  <script>
-    // small interactive behaviors
-    const btnShare = document.getElementById('btnShare');
-    const btnPrint = document.getElementById('btnPrint');
-    const btnPlay = document.getElementById('btnPlay');
-    const btnEditName = document.getElementById('btnEditName');
-    const title = document.getElementById('title');
-    const dateEl = document.getElementById('date');
-    const audio = document.getElementById('bgAudio');
+      <div style="margin-top:12px">
+        <label style="font-size:13px;color:var(--muted)">Tên người nhận</label>
+        <input id="inputTo" placeholder="Ví dụ: CHLOE">
+      </div>
 
-    // Set today's date in VN format
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2,'0');
-    const mm = String(today.getMonth()+1).padStart(2,'0');
-    const yyyy = today.getFullYear();
-    dateEl.textContent = `${dd}/${mm}/${yyyy}`;
+      <div style="margin-top:10px">
+        <label style="font-size:13px;color:var(--muted)">Tên người gửi</label>
+        <input id="inputFrom" placeholder="Bạn/Anh/Chị...">
+      </div>
 
-    // Share (copy link)
-    btnShare.addEventListener('click', async ()=>{
-      try{
-        await navigator.clipboard.writeText(location.href);
-        btnShare.textContent = 'Đã sao chép!';
-        setTimeout(()=> btnShare.textContent = 'Sao chép liên kết',1500);
-      }catch(e){
-        alert('Trình duyệt không hỗ trợ sao chép tự động. Vui lòng chọn và sao chép URL thủ công.');
-      }
-    });
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn" id="applyBtn">Áp dụng</button>
+        <button class="btn alt" id="resetBtn">Mặc định</button>
+      </div>
+    </aside>
+  </section>
 
-    // Print
-    btnPrint.addEventListener('click', ()=>{
-      window.print();
-    });
+  <!-- petals overlay -->
+  <div class="petals" id="petalLayer" aria-hidden="true"></div>
 
-    // Play / pause audio
-    btnPlay.addEventListener('click', ()=>{
-      if(!audio.src || audio.src.length<10){
-        // if no audio embedded, toggle a simple beep using WebAudio
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const o = ctx.createOscillator();
-        const g = ctx.createGain();
-        o.type = 'sine'; o.frequency.value = 440; g.gain.value = 0.001;
-        o.connect(g); g.connect(ctx.destination);
-        o.start();
-        setTimeout(()=>{ o.stop(); ctx.close(); }, 800);
-        return;
-      }
-      if(audio.paused){
-        audio.play(); btnPlay.textContent = 'Tắt nhạc';
-      }else{ audio.pause(); btnPlay.textContent = 'Mở nhạc nhẹ'; }
-    });
+</div>
 
-    // Edit recipient name (small friendly prompt)
-    btnEditName.addEventListener('click', ()=>{
-      const name = prompt('Nhập tên người nhận:', 'CHLOE');
-      if(name!==null && name.trim().length>0){
-        // update heading and message
-        title.textContent = `Chúc mừng Ngày Phụ nữ Việt Nam`;
-        document.querySelector('.subtitle').textContent = `Gửi tới ${name} — mong em luôn xinh đẹp, an yên và trọn vẹn niềm vui.`;
-      }
-    });
+<script>
+/* ======================
+   Intro flower bloom + show open button
+   ====================== */
+const flower = document.getElementById('flowerSVG');
+const openBtn = document.getElementById('openBtn');
+const intro = document.getElementById('intro');
+const card = document.getElementById('card');
+const petalLayer = document.getElementById('petalLayer');
 
-    // Accessibility: allow Enter to trigger primary action when focused
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter' && document.activeElement === btnPlay){ btnPlay.click(); }
-    });
+let introTimeouts = [];
 
-    // Progressive enhancement: if prefers-reduced-motion, reduce animations
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if(media.matches){
-      document.querySelectorAll('.rose, .confetti span').forEach(el=> el.style.animation = 'none');
+// start bloom after load
+window.addEventListener('load', ()=> {
+  // small delay then bloom
+  setTimeout(()=> {
+    flower.classList.add('bloom');
+  }, 250);
+
+  // after bloom animation show button (1.2s anim), give slight delay
+  introTimeouts.push(setTimeout(()=> {
+    openBtn.classList.add('show');
+  }, 1400));
+
+  // also auto-nudge petals on intro (a few)
+  introTimeouts.push(setTimeout(()=> spawnPetals(6, 16, true), 1700));
+});
+
+/* ======================
+   Transition to card
+   ====================== */
+
+openBtn.addEventListener('click', async ()=> {
+  // tiny scale pulse
+  openBtn.disabled = true;
+  openBtn.style.transform = 'scale(.98)';
+  setTimeout(()=> openBtn.style.transform = '', 120);
+
+  // fade intro then reveal card
+  intro.classList.add('hidden');
+
+  // small delay to let fade
+  setTimeout(()=> {
+    card.classList.add('show');
+    // start continuous petals
+    startPetalLoop();
+    // start typed message
+    startTypewriter();
+    // focus music button hint (optional)
+    document.getElementById('musicBtn').focus();
+  }, 700);
+});
+
+/* ======================
+   Petal creation (SVG petals falling)
+   ====================== */
+
+function createPetalElement(size=18){
+  const svgns = "http://www.w3.org/2000/svg";
+  const wrapper = document.createElement('div');
+  wrapper.className = 'petal';
+  // create small inline SVG to allow rotation + color variation
+  const svg = document.createElementNS(svgns, 'svg');
+  svg.setAttribute('viewBox','0 0 24 30');
+  svg.setAttribute('width', size);
+  svg.setAttribute('height', Math.round(size*1.2));
+  const path = document.createElementNS(svgns, 'path');
+  path.setAttribute('d','M12 1 C18 -2 24 4 20 10 C16 16 9 25 4 26 C-2 27 -4 20 0 14 C4 8 6 4 12 1 Z');
+  // random pink gradient using stops via fill
+  const r = Math.round(200 + Math.random()*55);
+  const g = Math.round(90 + Math.random()*80);
+  const b = Math.round(120 + Math.random()*80);
+  path.setAttribute('fill',`rgb(${r},${g},${b})`);
+  svg.appendChild(path);
+  wrapper.appendChild(svg);
+  // style wrapper absolute will be set by JS
+  wrapper.style.position = 'absolute';
+  wrapper.style.left = '0px';
+  wrapper.style.top = '-60px';
+  wrapper.style.opacity = (0.75 + Math.random()*0.25).toFixed(2);
+  wrapper.style.pointerEvents = 'none';
+  return wrapper;
+}
+
+function spawnPetalOnce(){
+  const el = createPetalElement(12 + Math.random()*18);
+  const startX = Math.random() * window.innerWidth;
+  el.style.left = `${startX}px`;
+  petalLayer.appendChild(el);
+  const duration = 4000 + Math.random()*6000;
+  const sway = 60 + Math.random()*160;
+  const rotDir = Math.random() < 0.5 ? -1 : 1;
+  const start = performance.now();
+
+  function anim(now){
+    const t = (now - start) / duration;
+    if (t > 1){
+      el.remove();
+      return;
     }
+    // ease-in-out
+    const ease = (t < 0.5) ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    const y = ease * (window.innerHeight + 200);
+    const x = Math.sin((now/800) * (Math.PI)) * sway + startX;
+    const rot = (now/50) * rotDir;
+    el.style.transform = `translate(${x - startX}px, ${y}px) rotate(${rot}deg)`;
+    requestAnimationFrame(anim);
+  }
+  requestAnimationFrame(anim);
+}
 
-  </script>
+function spawnPetals(count=1, interval=250, burst=false){
+  for (let i=0;i<count;i++){
+    setTimeout(()=> spawnPetalOnce(), i*interval + (burst? Math.random()*600:0));
+  }
+}
+
+let petalLoopTimer = null;
+function startPetalLoop(){
+  if (petalLoopTimer) return;
+  petalLoopTimer = setInterval(()=> {
+    const n = Math.random() < 0.7 ? 1 : (Math.random()<0.5?2:3);
+    spawnPetals(n, 160, false);
+  }, 700);
+}
+// stop function available if needed
+function stopPetalLoop(){
+  clearInterval(petalLoopTimer); petalLoopTimer = null;
+}
+
+/* ======================
+   Typewriter for message
+   ====================== */
+const messageEl = document.getElementById('message');
+const defaultTo = 'CHLOE';
+const defaultFrom = 'Người bạn thân';
+const typedTemplate = (to, from) => `Chúc ${to} một ngày thật rạng rỡ 💐\nMong mọi điều dịu ngọt, ấm áp sẽ bên ${to} —\nnhững nụ cười, vài điều bất ngờ và thật nhiều yêu thương.\n\n— ${from}`;
+
+function typewriter(text, el, speed = 28, callback){
+  el.textContent = '';
+  let i=0;
+  function step(){
+    el.textContent += text.charAt(i);
+    i++;
+    if (i < text.length){
+      setTimeout(step, speed + (Math.random()*18 - 8));
+    } else {
+      if (callback) callback();
+    }
+  }
+  step();
+}
+
+function startTypewriter(){
+  const to = document.getElementById('inputTo').value.trim() || defaultTo;
+  const from = document.getElementById('inputFrom').value.trim() || defaultFrom;
+  const text = typedTemplate(to, from);
+  typewriter(text, messageEl, 26);
+}
+
+/* ======================
+   Controls: Apply names / copy / print
+   ====================== */
+document.getElementById('applyBtn').addEventListener('click', ()=>{
+  const to = document.getElementById('inputTo').value.trim() || defaultTo;
+  const from = document.getElementById('inputFrom').value.trim() || defaultFrom;
+  document.getElementById('title').textContent = `Chúc em luôn xinh — ${to}`;
+  document.getElementById('subtitle').textContent = `Mong ${to} mỗi ngày đều dịu dàng, rạng rỡ như đóa hoa.`;
+  document.getElementById('fromName').textContent = from;
+  startTypewriter();
+});
+
+// reset
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  document.getElementById('inputTo').value = '';
+  document.getElementById('inputFrom').value = '';
+  document.getElementById('title').textContent = `Chúc em luôn xinh — ${defaultTo}`;
+  document.getElementById('subtitle').textContent = `Mong em mỗi ngày đều dịu dàng, rạng rỡ như đóa hoa.`;
+  document.getElementById('fromName').textContent = defaultFrom;
+  startTypewriter();
+});
+
+// copy link
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  try{
+    await navigator.clipboard.writeText(location.href);
+    const b = document.getElementById('copyBtn');
+    b.textContent = 'Đã sao chép!';
+    setTimeout(()=> b.textContent = 'Sao chép link', 1500);
+  }catch(e){
+    alert('Trình duyệt không hỗ trợ sao chép tự động. Hãy copy tay URL nếu cần.');
+  }
+});
+
+// print
+document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+
+/* ======================
+   Music: simple gentle piano-like using WebAudio
+   - This avoids external mp3 dependency and plays a looping ambient melody
+   ====================== */
+let audioCtx = null;
+let masterGain = null;
+let isPlaying = false;
+let sequenceTimer = null;
+
+function initAudio(){
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0.0; // start silent
+  masterGain.connect(audioCtx.destination);
+
+  // gentle reverb-like effect via Delay + feedback
+  const delay = audioCtx.createDelay(4.0);
+  delay.delayTime.value = 0.25;
+  const fb = audioCtx.createGain(); fb.gain.value = 0.28;
+  delay.connect(fb); fb.connect(delay);
+
+  const wet = audioCtx.createGain(); wet.gain.value = 0.14;
+  delay.connect(wet);
+  wet.connect(masterGain);
+
+  // attach delay to master chain
+  const dryGain = audioCtx.createGain(); dryGain.gain.value = 0.86;
+  dryGain.connect(masterGain);
+
+  // store nodes for use when playing notes
+  audioCtx._nodes = {dryGain, delay, fb, wet};
+}
+
+// play a single "bell" note (sine + gentle envelope)
+function playBell(freq, time=0, dur=1.6){
+  if (!audioCtx) initAudio();
+  const t0 = audioCtx.currentTime + time;
+  const osc = audioCtx.createOscillator();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.exponentialRampToValueAtTime(0.02, t0 + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+  // light harmonic via second oscillator (triangle)
+  const osc2 = audioCtx.createOscillator();
+  osc2.type = 'triangle';
+  osc2.frequency.value = freq * 2.001;
+
+  const gain2 = audioCtx.createGain();
+  gain2.gain.setValueAtTime(0.0001, t0);
+  gain2.gain.exponentialRampToValueAtTime(0.006, t0 + 0.02);
+  gain2.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+  // connect to dry and delay
+  osc.connect(gain); gain.connect(audioCtx._nodes.dryGain);
+  osc.connect(gain); gain.connect(audioCtx._nodes.delay);
+  osc2.connect(gain2); gain2.connect(audioCtx._nodes.dryGain);
+
+  osc.start(t0);
+  osc2.start(t0);
+  osc.stop(t0 + dur + 0.06);
+  osc2.stop(t0 + dur + 0.06);
+}
+
+// a gentle looping pattern (arpeggio)
+const melody = [
+  {f: 440, t:0}, {f: 523.25, t:0.5}, {f:659.25, t:1.1}, {f:523.25, t:1.8},
+  {f: 392, t:2.6}, {f: 440, t:3.2}
+];
+
+function startMusic(){
+  if (!audioCtx) initAudio();
+  if (isPlaying) return;
+  // resume context if suspended (autoplay policies)
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  // ramp master gain up
+  masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+  masterGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+  masterGain.gain.exponentialRampToValueAtTime(0.9, audioCtx.currentTime + 0.9);
+
+  // schedule looped melody using recurring setInterval
+  const loopTime = 6.2 * 1000;
+  // initial schedule
+  melody.forEach(n => playBell(n.f, n.t, 2.6));
+  sequenceTimer = setInterval(()=> {
+    melody.forEach(n => playBell(n.f, n.t, 2.6));
+  }, loopTime);
+
+  isPlaying = true;
+  document.getElementById('musicBtn').textContent = 'Tắt nhạc ♪';
+  document.getElementById('musicBtn').setAttribute('aria-pressed','true');
+}
+
+function stopMusic(){
+  if (!audioCtx) return;
+  masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+  masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+  masterGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+  clearInterval(sequenceTimer);
+  sequenceTimer = null;
+  isPlaying = false;
+  document.getElementById('musicBtn').textContent = 'Bật nhạc ♫';
+  document.getElementById('musicBtn').setAttribute('aria-pressed','false');
+}
+
+document.getElementById('musicBtn').addEventListener('click', async ()=>{
+  // some browsers require gesture to resume
+  if (!audioCtx) initAudio();
+  if (!isPlaying) {
+    try {
+      await audioCtx.resume();
+    } catch(e){}
+    startMusic();
+  } else {
+    stopMusic();
+  }
+});
+
+/* ======================
+   Accessibility & performance
+   ====================== */
+document.addEventListener('visibilitychange', ()=> {
+  if (document.hidden) {
+    // pause music softly
+    if (isPlaying) stopMusic();
+  }
+});
+
+// spawn a few petals on card load
+function spawnPetals(count=8){
+  spawnPetals = spawnPetals; // safety
+  for (let i=0;i<count;i++){
+    setTimeout(()=> spawnPetalOnce(), i * 160);
+  }
+}
+
+// initial typed message after card shows (handled in startTypewriter)
+
+// Clean up intro timers on unload
+window.addEventListener('beforeunload', ()=> {
+  introTimeouts.forEach(t => clearTimeout(t));
+});
+
+/* small improvement: when starting card, spawn a gentle burst */
+const origStartTypewriter = startTypewriter;
+startTypewriter = function(){
+  origStartTypewriter();
+  // little burst of petals
+  spawnPetals(10);
+  // start continuous petal loop (if not already)
+  startPetalLoop();
+}
+</script>
+
 </body>
 </html>
