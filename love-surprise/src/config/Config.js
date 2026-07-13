@@ -1,1 +1,0 @@
-export default {TARGET_FPS:60,PARTICLES:8000};
