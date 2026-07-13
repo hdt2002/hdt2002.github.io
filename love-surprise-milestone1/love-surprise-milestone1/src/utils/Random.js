@@ -1,1 +1,0 @@
-export const rand=(a,b)=>Math.random()*(b-a)+a;
