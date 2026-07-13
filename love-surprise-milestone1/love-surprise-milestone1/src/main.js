@@ -1,0 +1,1 @@
+import './style.css';import {Engine} from './engine/Engine.js';new Engine().start();
