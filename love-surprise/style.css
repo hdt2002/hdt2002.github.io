@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a1a1a;
+    overflow: hidden;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#instruction {
+    position: absolute;
+    top: 20px;
+    opacity: 0.8;
+}
+
+#puzzle-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+}
+
+.piece {
+    position: absolute;
+    background-size: 500px 500px;
+    will-change: transform; /* Tối ưu hóa GPU [6] */
+}
